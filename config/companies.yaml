@@ -1,0 +1,26 @@
+# Which job sources to pull from.
+#
+# greenhouse_boards / lever_clients: the "board token" / "client name" that
+# appears in a company's public job board URL, e.g.
+#   https://boards.greenhouse.io/<board_token>
+#   https://jobs.lever.co/<client_name>
+#
+# remoteok_tags: keyword tags to filter RemoteOK's global feed by
+# (RemoteOK has no per-company board, just one firehose of remote jobs).
+#
+# Board tokens/client names change as companies switch ATS providers, so a
+# token that worked once can start 404ing later. Verify one before adding it:
+#   curl -s https://boards-api.greenhouse.io/v1/boards/<token>/jobs | head -c 200
+#   curl -s "https://api.lever.co/v0/postings/<client>?mode=json" | head -c 200
+greenhouse_boards:
+  - stripe
+  - airbnb
+  - robinhood
+
+lever_clients:
+  - palantir
+
+remoteok_tags:
+  - python
+  - react
+  - typescript
