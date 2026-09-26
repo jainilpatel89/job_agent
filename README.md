@@ -11,16 +11,6 @@ resume-fit scoring.
 aggregates, scores, and summarizes postings — applying is a manual, deliberate
 step you take yourself.
 
-## Status: Day 1 — sources + resume parsing
-
-- [x] Project scaffolding, venv, dependencies
-- [x] Greenhouse Job Board API connector
-- [x] Lever Postings API connector
-- [x] RemoteOK API connector
-- [x] Resume loader (PDF/DOCX/TXT) + structured profile extraction
-- [ ] LangGraph scoring pipeline
-- [ ] Streamlit dashboard
-
 ## Setup
 
 ```bash
@@ -47,14 +37,13 @@ python -m job_agent.aggregate
 # Parse a resume into a structured profile
 python -c "
 from job_agent.resume import load_resume_text, extract_resume_profile
-text = load_resume_text('data/resume.txt')
+text = load_resume_text('data/resume.pdf')
 print(extract_resume_profile(text).model_dump_json(indent=2))
 "
 ```
 
-`data/resume.txt` currently holds a placeholder derived from the candidate
-summary in `CLAUDE.md` — swap in your real resume (`.pdf`/`.docx`/`.txt`) and
-point the loader at it.
+Drop your own resume file at `data/resume.pdf` (`.docx`/`.txt` also supported)
+before running the parser — it isn't included in this repo.
 
 Resume parsing uses the OpenAI API for real structured extraction when
 `OPENAI_API_KEY` is set, and falls back to a keyword-based heuristic
@@ -75,11 +64,11 @@ src/job_agent/
   config.py       # loads config/companies.yaml
   aggregate.py    # fetches from all configured sources, merges results
 config/companies.yaml   # which boards/clients/tags to pull from
-data/resume.txt         # candidate resume (placeholder for now)
+data/resume.pdf         # your resume (not tracked in this repo)
 tests/
 ```
 
-## Design constraints (see CLAUDE.md for full brief)
+## Design constraints
 
 - No LinkedIn/Indeed scraping — public JSON APIs only.
 - No browser automation (Playwright) in v1.

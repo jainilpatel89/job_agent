@@ -24,7 +24,13 @@ def _load_pdf(path: Path) -> str:
     from pypdf import PdfReader
 
     reader = PdfReader(str(path))
-    return "\n".join(page.extract_text() or "" for page in reader.pages)
+    # Plain extraction mode emits one word per line for some PDF generators
+    # (e.g. Canva-style templates), which destroys line/section structure
+    # downstream parsing relies on. Layout mode preserves visual line breaks
+    # and column spacing instead.
+    return "\n".join(
+        page.extract_text(extraction_mode="layout") or "" for page in reader.pages
+    )
 
 
 def _load_docx(path: Path) -> str:

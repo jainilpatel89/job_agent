@@ -9,3 +9,6 @@ build/
 dist/
 .pytest_cache/
 .streamlit/secrets.toml
+CLAUDE.md
+data/*
+!data/.gitkeep
